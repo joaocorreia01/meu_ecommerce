@@ -13,8 +13,6 @@ admin_bp = Blueprint('admin', __name__)
 def home():
     return redirect(url_for('login'))
 
-#quero que ao cadastrar um novo usuario, apareça uma mensagem de sucesso, porem nao apareca a mensagem de  'Por favor, faça o login para acessar o sistema ' porque esta aparecendo as duas mensagens.
-
 
 @app.route('/admin')
 def admin():
