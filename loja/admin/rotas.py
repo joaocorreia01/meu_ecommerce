@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash
-
 from loja import app, db, bcrypt
-# Define o blueprint
 from .forms import RegistrationForm, LoginFormulario
 from .models import User
 import os
@@ -11,11 +9,12 @@ import os
 admin_bp = Blueprint('admin', __name__)
 
 
-'''
-@admin_bp.route('/')
+@app.route('/')
 def home():
-    return render_template ('admin/index.html', title="Pagina Inicial")
-'''
+    return redirect(url_for('login'))
+
+#quero que ao cadastrar um novo usuario, apareça uma mensagem de sucesso, porem nao apareca a mensagem de  'Por favor, faça o login para acessar o sistema ' porque esta aparecendo as duas mensagens.
+
 
 @app.route('/admin')
 def admin():
@@ -33,7 +32,7 @@ def registrar():
         db.session.add(user)
         db.session.commit()
         flash(f'Obrigado por se registrar {form.name.data}!', 'success')
-        return redirect(url_for('admin.home')) #mudar para ('login')
+        return redirect(url_for('login')) #mudar para ('login')
     return render_template('admin/registrar.html', form=form, title="Pagina de registros")
 
 

@@ -32,10 +32,20 @@ def addcat():
             return redirect(url_for('addcat'))
         else:
             flash('O campo de marca não pode estar vazio.', 'danger')
-    return render_template('/produtos/addmarca.html')
+    return render_template('/produtos/addmarca.html', categoria=True)
 
+"""
+@app.route('/addproduto', methods=['GET', 'POST'])
+def addproduto():
+    marcas = Marca.query.all()
+    categoria = Categoria.query.all()
+    form = Addprodutos(request.form)
+    return render_template('produtos/addproduto.html', title = "Cadastro de Produto", form=form, marcas=marcas, categoria=categoria)     
+"""
 
 @app.route('/addproduto', methods=['GET', 'POST'])
 def addproduto():
+    marcas = Marca.query.all()
+    categorias = Categoria.query.all()  # Corrigido: renomeado para 'categorias' para ser consistente com o template
     form = Addprodutos(request.form)
-    return render_template('produtos/addproduto.html', title = "Cadastro de Produto", form=form)
+    return render_template('produtos/addproduto.html', title="Cadastro de Produto", form=form, marcas=marcas, categorias=categorias)
