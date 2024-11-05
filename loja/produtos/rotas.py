@@ -11,7 +11,7 @@ from .models import Marca, Categoria, Addproduto
 def addmarca():
     if request.method == "POST":
         getmarca = request.form.get('marca')
-        if getmarca:  # Verifica se getmarca não é None ou vazio
+        if getmarca:  
             marca = Marca(name=getmarca)
             db.session.add(marca)
             db.session.commit()
@@ -36,15 +36,6 @@ def addcat():
         else:
             flash('O campo de marca não pode estar vazio.', 'danger')
     return render_template('/produtos/addmarca.html', categoria=True)
-
-"""
-@app.route('/addproduto', methods=['GET', 'POST'])
-def addproduto():
-    marcas = Marca.query.all()
-    categoria = Categoria.query.all()
-    form = Addprodutos(request.form)
-    return render_template('produtos/addproduto.html', title = "Cadastro de Produto", form=form, marcas=marcas, categoria=categoria)     
-"""
 
 
 @app.route('/addproduto', methods=['GET', 'POST'])

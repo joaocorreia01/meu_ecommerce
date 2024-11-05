@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash
+from loja.produtos.models import Addproduto
 from loja import app, db, bcrypt
 from .forms import RegistrationForm, LoginFormulario
 from .models import User
@@ -19,7 +20,8 @@ def admin():
     if 'email' not in session:
         flash('Por favor, faça o login para acessar o sistema ', 'danger')
         return redirect(url_for('login'))
-    return render_template('admin/index.html', title="Pagina Inicial")
+    produtos = Addproduto.query.all()
+    return render_template('admin/index.html', title="Pagina Inicial", produtos=produtos)
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
