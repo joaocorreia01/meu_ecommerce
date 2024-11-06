@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash
-from loja.produtos.models import Addproduto
+from loja.produtos.models import Addproduto, Marca, Categoria
 from loja import app, db, bcrypt
 from .forms import RegistrationForm, LoginFormulario
 from .models import User
@@ -21,7 +21,26 @@ def admin():
         flash('Por favor, faça o login para acessar o sistema ', 'danger')
         return redirect(url_for('login'))
     produtos = Addproduto.query.all()
-    return render_template('admin/index.html', title="Pagina Inicial", produtos=produtos)
+    return render_template('admin/index.html', title="Pagina Administrativa", produtos=produtos)
+
+@app.route('/marcas')
+def marcas():
+    if 'email' not in session:
+        flash('Por favor, faça o login para acessar o sistema ', 'danger')
+        return redirect(url_for('login'))
+    marcas = Marca.query.order_by(Marca.id.desc()).all()
+    return render_template('admin/marca.html', title="Pagina de Fabricantes", marcas=marcas)
+
+
+@app.route('/categoria')
+def categoria():
+    if 'email' not in session:
+        flash('Por favor, faça o login para acessar o sistema ', 'danger')
+        return redirect(url_for('login'))
+    categorias = Categoria.query.order_by(Categoria.id.desc()).all()
+    return render_template('admin/marca.html', title="Pagina de Categorias", categorias=categorias)
+    
+        
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
