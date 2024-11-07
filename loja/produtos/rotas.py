@@ -110,6 +110,30 @@ def addcat():
             flash('O campo de marca não pode estar vazio.', 'danger')
     return render_template('/produtos/addmarca.html', categoria=True)
 
+@app.route('/deletecat/<int:id>', methods=['POST'])
+def deletecat(id):
+    categoria = Categoria.query.get_or_404(id)
+
+    '''
+    if request.method == "POST":
+        db.session.delete(categoria)
+        db.session.commit()
+        flash(f'Categoria {categoria.name} deletada com sucesso', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Categoria {categoria.name} não pode ser deletada', 'warning')
+    return redirect(url_for('admin'))
+    '''
+
+    if categoria.produtos:
+        flash(f'Não é possível deletar a categoria {categoria.name} pois existem produtos associados a ela.', 'warning')
+        return redirect(url_for('admin'))
+    
+    db.session.delete(categoria)
+    db.session.commit()
+    flash(f'Categoria {categoria.name} deletada com sucesso', 'success')
+    return redirect(url_for('admin'))
+    
+
 
 @app.route('/addproduto', methods=['GET', 'POST'])
 def addproduto():
@@ -143,6 +167,22 @@ def addproduto():
     
     return render_template('produtos/addproduto.html', title="Cadastro de Produto", form=form, marcas=marcas, categorias=categorias)
 
+@app.route('/deleteproduto/<int:id>', methods=['POST'])
+def deleteproduto(id):
+    produto = Addproduto.query.get_or_404(id)
+    if request.method == "POST":
+        try:
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_1))
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_2))
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_3))
+        except Exception as e:
+            print(e)
+        db.session.delete(produto)
+        db.session.commit()
+        flash(f'Produto {produto.name} deletado com sucesso', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Produto {produto.name} não pode ser deletado', 'warning')
+    return redirect(url_for('admin'))
 
 @app.route('/updateproduto/<int:id>', methods=['GET', 'POST'])
 def updateproduto(id):

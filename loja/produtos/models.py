@@ -16,7 +16,7 @@ class Addproduto(db.Model):
     marca = db.relationship('Marca', backref=db.backref('marca', lazy=True))
 
     categoria_id = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
-    categoria = db.relationship('Categoria', backref=db.backref('categorias', lazy=True)) #observar se é o mesmo nome da tabela
+    categoria = db.relationship('Categoria', backref=db.backref('produtos', lazy=True)) #observar se é o mesmo nome da tabela
 
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
