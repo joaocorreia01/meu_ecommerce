@@ -12,7 +12,7 @@ class Addproduto(db.Model):
     color = db.Column(db.String(100), nullable=False)
     pub_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
-    marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
+    marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=True)
     marca = db.relationship('Marca', backref=db.backref('marca', lazy=True))
 
     categoria_id = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)

@@ -1,5 +1,5 @@
-import secrets
-from flask import redirect, url_for, render_template, request, flash, session
+import secrets, os
+from flask import redirect, url_for, render_template, request, flash, session, current_app
 from loja import db, app, photos
 from .forms import Addprodutos
 from .models import Marca, Categoria, Addproduto
@@ -44,6 +44,33 @@ def updatemarca(id):
         return redirect(url_for('marcas'))
 
     return render_template('/produtos/updatemarca.html', title="Atualizar Fabricantes", updatemarca=updatemarca)
+
+
+'''
+@app.route('/deletemarca/<int:id>', methods=['POST'])
+def deletemarca(id):
+
+    marca = Marca.query.get_or_404(id)
+    if request.method == "POST":
+        db.session.delete(marca)
+        db.session.commit()
+        flash(f'Fabricante {marca.name} deletado com sucesso', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Fabricante {marca.name} não pode ser deletado', 'warning')
+    return redirect(url_for('admin'))
+'''
+#Impedir a Exclusão de Fabricantes com Produtos Associados
+@app.route('/deletemarca/<int:id>', methods=['POST'])
+def deletemarca(id):
+    marca = Marca.query.get_or_404(id)
+    if marca.marca:
+        flash(f'Não é possível deletar a marca {marca.name} pois existem produtos associados a ela.', 'warning')
+        return redirect(url_for('admin'))
+    
+    db.session.delete(marca)
+    db.session.commit()
+    flash(f'Fabricante {marca.name} deletado com sucesso', 'success')
+    return redirect(url_for('admin'))
 
 
 @app.route('/updatecat/<int:id>', methods=['GET', 'POST'])
@@ -112,7 +139,7 @@ def addproduto():
         db.session.add(addprod)
         flash(f'Produto {name} adicionado com sucesso', 'success')
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('admin'))
     
     return render_template('produtos/addproduto.html', title="Cadastro de Produto", form=form, marcas=marcas, categorias=categorias)
 
@@ -137,10 +164,33 @@ def updateproduto(id):
         produto.stock = form.stock.data
         produto.description = form.description.data
         produto.color = form.colors.data
-        produto.marca_id = marca
-        produto.categoria_id = categoria
+
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_1))
+                produto.image_1 = photos.save(request.files.get('image_1'),name=secrets.token_hex(10) + ".")
+            except:
+                produto.image_1 = photos.save(request.files.get('image_1'),name=secrets.token_hex(10) + ".")
+
+        if request.files.get('image_2'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_2))
+                produto.image_2 = photos.save(request.files.get('image_2'),name=secrets.token_hex(10) + ".")
+            except:
+                produto.image_2 = photos.save(request.files.get('image_2'),name=secrets.token_hex(10) + ".")
+        
+        if request.files.get('image_3'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + produto.image_3))
+                produto.image_3 = photos.save(request.files.get('image_3'),name=secrets.token_hex(10) + ".")
+            except:
+                produto.image_3 = photos.save(request.files.get('image_3'),name=secrets.token_hex(10) + ".")
+        
+
         db.session.commit()
+
         flash(f'Produto {produto.name} atualizado com sucesso', 'success')
+        
         return redirect(url_for('admin')) #redirect('admin')
     
     form.name.data = produto.name
