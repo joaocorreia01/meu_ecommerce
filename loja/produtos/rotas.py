@@ -16,10 +16,12 @@ def home():
 
 @app.route('/marca/<int:id>')
 def get_marca(id):
-    marca = Addproduto.query.filter_by(marca_id=id)
+    get_m = Marca.query.filter_by(id=id).first_or_404()
+    pagina = request.args.get('page', 1, type=int)
+    marca = Addproduto.query.filter_by(marca=get_m).paginate(page=pagina, per_page=1)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
-    return render_template('produtos/index.html', marca=marca, marcas=marcas, categorias=categorias)
+    return render_template('produtos/index.html', marca=marca, marcas=marcas, categorias=categorias, get_m=get_m)
 
 @app.route('/categoria/<int:id>')
 def get_categoria(id):

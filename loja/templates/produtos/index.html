@@ -55,7 +55,7 @@
     <div class="row">
         {% if marca %}
 
-        {% for m in marca %}
+        {% for m in marca.items %}
             <div class="col-md-3">
                 <div class="card">
                     <img src="{{url_for('static', filename='images/' + m.image_1)}}" alt="{{ m.name }}" class="card-img-top" height="180">
@@ -74,6 +74,35 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="row">
+      <div class="col text-center">
+
+        {% if marca.has_prev %}
+        <a href="{{url_for('get_marca',id=get_m.id,page=get_m_prod.prev_num)}}" class="btn btn-success btn-sm mt-3">Anterior</a>
+        {% endif %}
+
+        {% for page_num in marca.iter_pages() %}
+          {% if page_num %}
+
+            {% if marca.pagina == page_num %}
+              <a href="{{url_for('get_marca',id=get_m.id,page=page_num)}}" class="btn btn-success btn-sm mt-3">{{page_num}}</a>
+            {% else %}
+              <a href="{{url_for('get_marca',id=get_m.id,page=page_num)}}" class="btn btn-outline-success btn-sm mt-3">{{page_num}}</a>
+          {% endif %}
+
+          {% else %}
+          ...
+          {% endif %}
+
+        {% endfor %}
+
+        {% if marca.has_prev %}
+          <a href="{{url_for('get_marca', id=get_m.id,page=get_m_prod.next_num)}}" class="btn btn-success btn-sm mt-3">Proximo</a>
+        {% endif %}
+      </div>
+    </div>
+
     <div class="row">
         {% elif get_cat_prod %}
         {% for get_cat in get_cat_prod.items %}
