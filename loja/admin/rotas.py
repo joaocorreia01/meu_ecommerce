@@ -9,10 +9,11 @@ import os
 
 admin_bp = Blueprint('admin', __name__)
 
-
+'''
 @app.route('/')
 def home():
     return redirect(url_for('login'))
+'''
 
 
 @app.route('/admin')

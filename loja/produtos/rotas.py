@@ -5,6 +5,16 @@ from .forms import Addprodutos
 from .models import Marca, Categoria, Addproduto
 
 
+@app.route('/')
+def home():
+    produtos = Addproduto.query.filter(Addproduto.stock > 0).all()
+    marcas = Marca.query.all()
+    return render_template('produtos/index.html', produtos=produtos, marcas=marcas)
+
+@app.route('/marca/<int:id>')
+def get_marca(id):
+    marca = Addproduto.query.filter_by(marca_id=id)
+    return render_template('produtos/index.html', marca=marca)
 
 
 @app.route('/addmarca', methods=['GET', 'POST'])
