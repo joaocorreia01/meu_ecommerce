@@ -61,7 +61,7 @@
                 <td>{{produto.price}}</td>
                 <td>{{produto.discount}} %</td>
                 <td>{{produto.marca.name}}</td>
-                <td><img src="{{url_for('static', filename='images/' + produto.image_1)}}" width="150" height="80"></td>
+                <td><img src="{{url_for('static', filename='images/' + produto.image_1)}}" width="150" height="100"></td>
                 <td><a href="{{url_for('updateproduto',id=produto.id)}}" class="btn btn-success btn-sm">Editar</a></td>
                 <td>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ produto.id }}">

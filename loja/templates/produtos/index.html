@@ -79,10 +79,12 @@
       <div class="col text-center">
 
         {% if marca.has_prev %}
+        {% if marca.total > 4 %}
+
         <a href="{{url_for('get_marca',id=get_m.id,page=get_m_prod.prev_num)}}" class="btn btn-success btn-sm mt-3">Anterior</a>
         {% endif %}
 
-        {% for page_num in marca.iter_pages() %}
+        {% for page_num in marca.iter_pages(left_edge=1, right_edge=2,left_current=1,right_current=2) %}
           {% if page_num %}
 
             {% if marca.pagina == page_num %}
@@ -96,6 +98,7 @@
           {% endif %}
 
         {% endfor %}
+        {% endif %}
 
         {% if marca.has_prev %}
           <a href="{{url_for('get_marca', id=get_m.id,page=get_m_prod.next_num)}}" class="btn btn-success btn-sm mt-3">Proximo</a>
@@ -132,8 +135,10 @@
             {% if get_cat_prod.has_prev %}
             <a href="{{url_for('get_categoria',id=get_cat.id,page=get_cat_prod.prev_num)}}" class="btn btn-success btn-sm mt-3">Anterior</a>
             {% endif %}
-    
-            {% for page_num in get_cat_prod.iter_pages() %}
+            
+            {% if get_cat_prod.total > 4 %}
+
+            {% for page_num in get_cat_prod.iter_pages(left_edge=1, right_edge=2,left_current=1,right_current=2) %}
               {% if page_num %}
     
                 {% if get_cat_prod.pagina == page_num %}
@@ -147,8 +152,9 @@
               {% endif %}
     
             {% endfor %}
+            {% endif %}
     
-            {% if get_cat_prod.has_prev %}
+            {% if get_cat_prod.has_next %}
               <a href="{{url_for('get_categoria', id=get_cat.id,page=get_cat_prod.next_num)}}" class="btn btn-success btn-sm mt-3">Proximo</a>
             {% endif %}
           </div>
@@ -185,7 +191,9 @@
         <a href="{{url_for('home', page=produtos.prev_num)}}" class="btn btn-success btn-sm mt-3">Anterior</a>
         {% endif %}
 
-        {% for page_num in produtos.iter_pages() %}
+        {% if produtos.total > 4 %}
+
+        {% for page_num in produtos.iter_pages(left_edge=1, right_edge=2,left_current=1,right_current=2) %}
           {% if page_num %}
 
             {% if produtos.pagina == page_num %}
@@ -199,8 +207,9 @@
           {% endif %}
 
         {% endfor %}
+        {% endif %}
 
-        {% if produtos.has_prev %}
+        {% if produtos.has_next %}
           <a href="{{url_for('home', page=produtos.next_num)}}" class="btn btn-success btn-sm mt-3">Proximo</a>
         {% endif %}
       </div>

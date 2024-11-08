@@ -8,7 +8,7 @@ from .models import Marca, Categoria, Addproduto
 @app.route('/')
 def home():
     pagina = request.args.get('page', 1, type=int)
-    produtos = Addproduto.query.filter(Addproduto.stock > 0).order_by(Addproduto.id.desc()).paginate(page=pagina, per_page=3)
+    produtos = Addproduto.query.filter(Addproduto.stock > 0).order_by(Addproduto.id.desc()).paginate(page=pagina, per_page=4)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
 
@@ -18,7 +18,7 @@ def home():
 def get_marca(id):
     get_m = Marca.query.filter_by(id=id).first_or_404()
     pagina = request.args.get('page', 1, type=int)
-    marca = Addproduto.query.filter_by(marca=get_m).paginate(page=pagina, per_page=3)
+    marca = Addproduto.query.filter_by(marca=get_m).paginate(page=pagina, per_page=4)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
     return render_template('produtos/index.html', marca=marca, marcas=marcas, categorias=categorias, get_m=get_m)
@@ -27,7 +27,7 @@ def get_marca(id):
 def get_categoria(id):
     pagina = request.args.get('page', 1, type=int)
     get_cat = Categoria.query.filter_by(id=id).first_or_404()
-    get_cat_prod = Addproduto.query.filter_by(categoria=get_cat).paginate(page=pagina, per_page=3)
+    get_cat_prod = Addproduto.query.filter_by(categoria=get_cat).paginate(page=pagina, per_page=4)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
     return render_template('produtos/index.html', get_cat_prod=get_cat_prod, marcas=marcas, categorias=categorias, get_cat=get_cat)
