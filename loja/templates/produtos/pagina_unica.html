@@ -64,16 +64,17 @@
 
         <div class="col-md-6">
             <h2>{{ produto.name }}</h2>
-            <br>
+            <hr>
             <p>Preço do Produto R${{ produto.price }}</p>
+            <hr>
             
             {% if produto.discount > 0 %}
                 <b>Desconto de {{ produto.discount }}%</b>
             {% endif %}
             <br>
-            <br>
+            <hr>
             <p>Descrição do Produto: {{ produto.description }}</p>
-            <br>
+            <hr>
             <form action="{{url_for('AddCart')}}" method="POST">
                 <input type="hidden" name="produto_id" value="{{ produto.id }}">
                 <button type="submit" class="btn btn-sm btn-primary">Adicionar ao Carrinho</button>
@@ -93,6 +94,7 @@
 
     <div class="row">
         <div class="col-md-12 mt-3" id="s_image">
+            <hr>
             <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{ produto.name }}" width="150" height="130" class="p-3">
             <img src="{{url_for('static', filename='images/' + produto.image_2)}}" alt="{{ produto.name }}" width="150" height="130" class="p-3">
             <img src="{{url_for('static', filename='images/' + produto.image_3)}}" alt="{{ produto.name }}" width="150" height="130" class="p-3">
