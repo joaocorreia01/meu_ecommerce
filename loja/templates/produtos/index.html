@@ -67,7 +67,7 @@
                         <p class="text-center">Preço R${{ m.price }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
+                        <a href="{{url_for('pagina_unica',id=m.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
                         <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         <p class="text-center">Preço R${{ get_cat.price }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
+                        <a href="{{url_for('pagina_unica',id=get_cat.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
                         <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
                         <p class="text-center">Preço R${{ produto.price }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="float-left btn btn-sm btn-success">Detalhes Produtos</a>
+                        <a href="{{url_for('pagina_unica',id=produto.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produtos</a>
                         <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                     </div>
                 </div>

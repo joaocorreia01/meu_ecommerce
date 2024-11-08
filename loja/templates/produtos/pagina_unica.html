@@ -1,0 +1,92 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+<div class="container">
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Pagina Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Todos os Produtos</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Marca | Fabricantes
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% for marca in marcas %}
+                    <a class="dropdown-item" href="{{url_for('get_marca', id=marca.id)}}">{{ marca.name }}</a>
+                {% endfor %}
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categorias
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% for categoria in categorias %}
+                    <a class="dropdown-item" href="{{url_for('get_categoria', id=categoria.id)}}">{{ categoria.name }}</a>
+                {% endfor %}
+            </div>
+            
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" id="m_image">
+            <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{ produto.name }}" height="400">
+
+        </div>
+    
+
+        <div class="col-md-6">
+            <h2>{{ produto.name }}</h2>
+            <br>
+            <p>Preço do Produto R${{ produto.price }}</p>
+            
+            {% if produto.discount > 0 %}
+                <b>Desconto de {{ produto.discount }}%</b>
+            {% endif %}
+            <br>
+            <br>
+            <p>Descrição do Produto: {{ produto.description }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{ produto.name }}" height="150">
+            <img src="{{url_for('static', filename='images/' + produto.image_2)}}" alt="{{ produto.name }}" height="150">
+            <img src="{{url_for('static', filename='images/' + produto.image_3)}}" alt="{{ produto.name }}" height="150">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

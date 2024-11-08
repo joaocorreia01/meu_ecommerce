@@ -32,6 +32,11 @@ def get_categoria(id):
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
     return render_template('produtos/index.html', get_cat_prod=get_cat_prod, marcas=marcas, categorias=categorias, get_cat=get_cat)
 
+@app.route('/produto/<int:id>')
+def pagina_unica(id):
+    produto = Addproduto.query.get_or_404(id)
+    return render_template('produtos/pagina_unica.html', produto=produto)
+
 @app.route('/addmarca', methods=['GET', 'POST'])
 def addmarca():
 
