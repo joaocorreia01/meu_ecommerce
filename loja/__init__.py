@@ -30,4 +30,5 @@ from loja.admin import rotas
 # Importa e registra o blueprint
 from loja.admin.rotas import admin_bp
 from loja.produtos import rotas
+from loja.carrinho import carrinhos
 app.register_blueprint(admin_bp)
