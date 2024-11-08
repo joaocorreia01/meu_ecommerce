@@ -7,7 +7,8 @@ from .models import Marca, Categoria, Addproduto
 
 @app.route('/')
 def home():
-    produtos = Addproduto.query.filter(Addproduto.stock > 0).all()
+    pagina = request.args.get('page', 1, type=int)
+    produtos = Addproduto.query.filter(Addproduto.stock > 0).paginate(page=pagina, per_page=1)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
 
@@ -22,10 +23,12 @@ def get_marca(id):
 
 @app.route('/categoria/<int:id>')
 def get_categoria(id):
-    get_cat_prod = Addproduto.query.filter_by(categoria_id=id)
+    pagina = request.args.get('page', 1, type=int)
+    get_cat = Categoria.query.filter_by(id=id).first_or_404()
+    get_cat_prod = Addproduto.query.filter_by(categoria=get_cat).paginate(page=pagina, per_page=1)
     marcas = Marca.query.join(Addproduto, (Marca.id == Addproduto.marca_id)).all()
     categorias = Categoria.query.join(Addproduto, (Categoria.id == Addproduto.categoria_id)).all()
-    return render_template('produtos/index.html', get_cat_prod=get_cat_prod, marcas=marcas, categorias=categorias)
+    return render_template('produtos/index.html', get_cat_prod=get_cat_prod, marcas=marcas, categorias=categorias, get_cat=get_cat)
 
 @app.route('/addmarca', methods=['GET', 'POST'])
 def addmarca():
@@ -65,20 +68,6 @@ def updatemarca(id):
 
     return render_template('/produtos/updatemarca.html', title="Atualizar Fabricantes", updatemarca=updatemarca)
 
-
-'''
-@app.route('/deletemarca/<int:id>', methods=['POST'])
-def deletemarca(id):
-
-    marca = Marca.query.get_or_404(id)
-    if request.method == "POST":
-        db.session.delete(marca)
-        db.session.commit()
-        flash(f'Fabricante {marca.name} deletado com sucesso', 'success')
-        return redirect(url_for('admin'))
-    flash(f'Fabricante {marca.name} não pode ser deletado', 'warning')
-    return redirect(url_for('admin'))
-'''
 #Impedir a Exclusão de Fabricantes com Produtos Associados
 @app.route('/deletemarca/<int:id>', methods=['POST'])
 def deletemarca(id):
@@ -133,16 +122,6 @@ def addcat():
 @app.route('/deletecat/<int:id>', methods=['POST'])
 def deletecat(id):
     categoria = Categoria.query.get_or_404(id)
-
-    '''
-    if request.method == "POST":
-        db.session.delete(categoria)
-        db.session.commit()
-        flash(f'Categoria {categoria.name} deletada com sucesso', 'success')
-        return redirect(url_for('admin'))
-    flash(f'Categoria {categoria.name} não pode ser deletada', 'warning')
-    return redirect(url_for('admin'))
-    '''
 
     if categoria.produtos:
         flash(f'Não é possível deletar a categoria {categoria.name} pois existem produtos associados a ela.', 'warning')
