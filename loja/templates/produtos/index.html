@@ -40,7 +40,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            <a class="nav-link disabled" href="#" tabindex="-1">Carrinho({{session['LojainCarrinho']|length}})</a>
           </li>
         </ul>
         <form class="d-flex" role="search">
@@ -68,7 +68,20 @@
                     </div>
                     <div class="card-footer">
                         <a href="{{url_for('pagina_unica',id=m.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                        <form action="{{url_for('AddCart')}}" method="POST">
+                          <input type="hidden" name="produto_id" value="{{ m.id }}">
+                          <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                          <input type="hidden" name="quantidade" value="1">
+                          {% set color = m.color.split(',') %}
+                     
+                          <select name="color" id="color" style="visibility: hidden;">
+                              {% for c in color %}
+                              {% set c = c.split(':') %}
+                              <option value="{{ c[0] }}">{{ c[0]|capitalize }}</option>
+                              {% endfor %}
+                          </select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -122,7 +135,21 @@
                     </div>
                     <div class="card-footer">
                         <a href="{{url_for('pagina_unica',id=get_cat.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produto</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                        
+                        <form action="{{url_for('AddCart')}}" method="POST">
+                          <input type="hidden" name="produto_id" value="{{ get_cat.id }}">
+                          <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                          <input type="hidden" name="quantidade" value="1">
+                          {% set color = get_cat.color.split(',') %}
+                     
+                          <select name="color" id="color" style="visibility: hidden;">
+                              {% for c in color %}
+                              {% set c = c.split(':') %}
+                              <option value="{{ c[0] }}">{{ c[0]|capitalize }}</option>
+                              {% endfor %}
+                          </select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -177,8 +204,22 @@
                         <p class="text-center">Preço R${{ produto.price }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{url_for('pagina_unica',id=produto.id)}}" class="float-left btn btn-sm btn-success">Detalhes Produtos</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                        <a href="{{url_for('pagina_unica',id=produto.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
+                        
+                        <form action="{{url_for('AddCart')}}" method="POST">
+                          <input type="hidden" name="produto_id" value="{{ produto.id }}">
+                          <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                          <input type="hidden" name="quantidade" value="1" min="1" max="{{produto.stock}}">
+                          {% set color = produto.color.split(',') %}
+                     
+                          <select name="color" id="color" style="visibility: hidden;">
+                              {% for c in color %}
+                              {% set c = c.split(':') %}
+                              <option value="{{ c[0] }}">{{ c[0]|capitalize }}</option>
+                              {% endfor %}
+                          </select>
+                        </form>
                     </div>
                 </div>
             </div>
