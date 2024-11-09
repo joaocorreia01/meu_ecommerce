@@ -54,6 +54,34 @@ def AddCart():
 
 
 
+@app.route('/carros')
+def getCart():
+    print("Rota /carros foi acessada")
+    if 'LojainCarrinho' not in session:
+        return redirect(request.referrer)
+    return render_template('produtos/carros.html')
+
+
+
+
+
+"""
+Usar essa se der merda
+
+@app.route('/carros')
+def getCart():
+    print("Rota /carros foi acessada")  # Verificação para log
+
+    # Verifica se o carrinho existe na sessão; se não, redireciona para a página inicial
+    if 'LojainCarrinho' not in session:
+        return redirect(request.referrer or url_for('home'))
+
+    # Passa o conteúdo do carrinho para o template
+    return render_template('produtos/carros.html', carrinho=session['LojainCarrinho'])
+"""
+
+
+
 """
 @app.route('/addCart', methods=['POST'])
 def AddCart():
