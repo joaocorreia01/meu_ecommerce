@@ -1,7 +1,8 @@
 from flask import redirect, url_for, render_template, request, flash, session, current_app
 from loja import db, app
 from loja.produtos.models import Addproduto
-
+from loja.produtos.rotas import marcas, categorias
+import json
 
 
 def M_Dicionarios(dic1,dic2):
@@ -66,9 +67,46 @@ def getCart():
         subtotal += float(produto.get('price')) * int(produto.get('quantity'))
         subtotal -= desconto
         valorapagar = float("%.2f" % (1 * subtotal))
-    return render_template('produtos/carros.html', valorapagar=valorapagar)
+    return render_template('produtos/carros.html', valorapagar=valorapagar, marcas=marcas(), categorias=categorias())
 
 
+@app.route('/updateCarro/<int:code>', methods=['POST'])
+def updateCarro(code):
+    if 'LojainCarrinho' not in session and len(session['LojainCarrinho']) <= 0:
+        return redirect(url_for('home'))
+    if request.method == 'POST':
+        quantity = request.form.get('quantity')
+        color = request.form.get('color')
+        try:
+            session.modified = True
+            for key, item in session['LojainCarrinho'].items():
+                if int(key) == code:
+                    item['quantity'] = quantity
+                    item['color'] = color
+                    flash('Produto atualizado com sucesso', 'success')
+                    return redirect(url_for('getCart'))
+        except Exception as e:
+            print(e)
+            flash('Não foi possível atualizar o produto', 'danger')
+            return redirect(url_for('getCart'))
+    
+
+@app.route('/removeItem/<int:id>')
+def removeItem(id):
+    if 'LojainCarrinho' not in session and len(session['LojainCarrinho']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, item in session['LojainCarrinho'].items():
+            if int(key) == id:
+                session['LojainCarrinho'].pop(key, None)
+                flash('Produto removido com sucesso', 'success')
+                return redirect(url_for('getCart'))
+                
+    except Exception as e:
+        print(e)
+        flash('Não foi possível remover o produto', 'danger')
+        return redirect(url_for('getCart'))
 
 
 

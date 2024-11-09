@@ -82,7 +82,7 @@
                 <input type="number" name="quantidade" value="1" min="1" max="{{produto.stock}}">
                 {% set color = produto.color.split(',') %}
                 <label for="color">Cor do Produto:</label>
-                <select name="color" id="">
+                <select name="color" id="color">
                     {% for c in color %}
                     {% set c = c.split(':') %}
                     <option value="{{ c[0] }}">{{ c[0]|capitalize }}</option>
