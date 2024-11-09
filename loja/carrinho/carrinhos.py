@@ -59,7 +59,15 @@ def getCart():
     print("Rota /carros foi acessada")
     if 'LojainCarrinho' not in session:
         return redirect(request.referrer)
-    return render_template('produtos/carros.html')
+    subtotal = 0
+    valorapagar = 0
+    for key, produto in session['LojainCarrinho'].items():
+        desconto = (produto.get('discount') / 100) * float(produto.get('price'))
+        subtotal += float(produto.get('price')) * int(produto.get('quantity'))
+        subtotal -= desconto
+        valorapagar = float("%.2f" % (1 * subtotal))
+    return render_template('produtos/carros.html', valorapagar=valorapagar)
+
 
 
 
