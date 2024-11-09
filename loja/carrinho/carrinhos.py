@@ -109,13 +109,21 @@ def removeItem(id):
         return redirect(url_for('getCart'))
 
 
+@app.route('/limparcarro')
+def limparcarro():
+    try:
+        session.pop('LojainCarrinho', None)
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(e)
+
 
 
 """
-Usar essa se der merda
+    Usar essa se der merda
 
-@app.route('/carros')
-def getCart():
+    @app.route('/carros')
+    def getCart():
     print("Rota /carros foi acessada")  # Verificação para log
 
     # Verifica se o carrinho existe na sessão; se não, redireciona para a página inicial
