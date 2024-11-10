@@ -16,7 +16,8 @@ def cadastrar_clientes():
         db.session.add(cadastrar)
         flash(f' Obriagdo {form.name.data} por se cadastrar', 'success')
         db.session.commit()
-        return redirect(url_for('login'))
+        # return redirect(url_for('login')) bug
+        return render_template('cliente/login.html', form=form)
     return render_template('cliente/cliente.html', form=form)
 
 
