@@ -9,6 +9,7 @@ body {
 }
 .container-navbar{
     position: relative;
+    background-color: white;
     margin-left: 0;
     margin-right: 0;
     width: 1920px;
@@ -31,4 +32,7 @@ body {
 
 }
 
-.container
+.container {
+    width: 100%;
+
+    }
