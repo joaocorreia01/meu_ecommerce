@@ -30,9 +30,11 @@ def clientelogin():
             flash('Você está logado com sucesso!', 'success')
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
-            flash('Login Inválido. Por favor, verifique o email e a senha', 'danger')
-            return redirect(url_for('clientelogin'))
-            
+        else:
+            flash('Login não realizado. Por favor, verifique email e senha.', 'danger')
+            return redirect(url_for('clientelogin'))    
+        
+
     return render_template('cliente/login.html', form=form)
 
     
