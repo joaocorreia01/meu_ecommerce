@@ -27,14 +27,19 @@ def clientelogin():
         user = Cadastrar.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            flash('Você está logado com sucesso!', 'success')
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
-            flash('Login não realizado. Por favor, verifique email e senha.', 'danger')
-            return redirect(url_for('clientelogin'))    
-        
+            flash('Login não realizado. Por favor, verifique seu email e senha', 'danger')
 
     return render_template('cliente/login.html', form=form)
+
+
+
+
+@app.route('/cliente/logout')
+def clientelogout():
+    logout_user()
+    return redirect(url_for('home'))
 
     
