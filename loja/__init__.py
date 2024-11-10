@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_bcrypt import Bcrypt
 import os
-
+from flask_login import LoginManager
 
 
 
@@ -25,6 +25,11 @@ photos = UploadSet('photos', IMAGES)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Define o tamanho máximo de upload (16 MB aqui como exemplo)
 configure_uploads(app, photos)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'clientelogin'
+login_manager.needs_refresh_message_category = 'danger'
+login_manager.login_message = "Faça login para acessar esta página."
 
 
 from loja.admin import rotas

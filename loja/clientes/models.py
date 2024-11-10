@@ -1,7 +1,13 @@
-from loja import app, db
+from loja import app, db, login_manager
 from datetime import datetime
+from flask_login import UserMixin
 
-class Cadastrar(db.Model):
+@login_manager.user_loader
+def user_carregar(user_id):
+    return Cadastrar.query.get(int(user_id))
+
+
+class Cadastrar(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Garante autoincremento para id
     name = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
