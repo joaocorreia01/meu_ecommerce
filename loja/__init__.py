@@ -33,4 +33,5 @@ from loja.admin import rotas
 from loja.admin.rotas import admin_bp
 from loja.produtos import rotas
 from loja.carrinho import carrinhos
+from loja.clientes import rotas
 app.register_blueprint(admin_bp)
