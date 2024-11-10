@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/mnt/c/Users/João\ Victor/engsoft_ic/')  # Ajuste conforme necessário
+sys.path.append('/')  # Ajuste conforme necessário
 from loja import app
 
 
