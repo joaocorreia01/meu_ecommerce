@@ -4,6 +4,7 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_bcrypt import Bcrypt
 import os
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 
 
@@ -24,6 +25,16 @@ app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/images')
 photos = UploadSet('photos', IMAGES)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Define o tamanho máximo de upload (16 MB aqui como exemplo)
 configure_uploads(app, photos)
+
+
+
+migrate = Migrate(app, db)
+with app.app_context():
+    if db.engine.url.drivername == "sqlite":
+        migrate.init_app(app, db, render_as_batch=True)
+    else:
+        migrate.init_app(app, db)
+        
 
 login_manager = LoginManager()
 login_manager.init_app(app)

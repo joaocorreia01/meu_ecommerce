@@ -83,7 +83,7 @@
                         <h4 class="text-center">{{ get_cat.name }}</h4>
                         <p class="text-center">Preço R${{ get_cat.price }}</p>
                         {% if get_cat.discount > 0 %}
-                        <h5 style="text-shadow: 1px 2px 2px #000; color: red;" class="text-center">Desconto de {{ get_cat.discount }}%</h5>
+                        <h5 style="text-shadow: 1px 2px 2px #000; color: red;" class="text-center">Desconto de {{ get_cat.discount }}% </h5>
                         {% endif %} 
                     </div>
                     <div class="card-footer">
@@ -148,6 +148,14 @@
                 <div class="card">
                     <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{ produto.name }}" class="card-img-top" height="180">
                     <div class="card-body">
+<<<<<<< HEAD
+=======
+                        {% if produto.discount is not none and produto.discount > 0 %}
+                        <h5 style="text-shadow: 1px 2px 2px #000; color: red;" class="text-center">
+                            Desconto de {{ produto.discount }}%
+                        </h5>
+                        {% endif %}
+>>>>>>> 50e5fcd (criando pagina de pedidos)
                         <h4 class="text-center">{{ produto.name }}</h4>
                         <p class="text-center">Preço R${{ produto.price }}</p>
                         {% if produto.discount is not none and produto.discount > 0 %}

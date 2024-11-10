@@ -11,41 +11,30 @@
                 <thead>
                     <tr>
                         <th>Codigo</th>
-                        <th>Imagem</th>
                         <th>Nome</th>
                         <th>Cor</th>
                         <th>Preco</th>
                         <th>Quantidade</th>
                         <th>Desconto</th>
                         <th>Subtotal</th>
-                        <th>Atualizar</th>
-                        <th>Remover</th>
+                        
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for key, produto in session['LojainCarrinho'].items() %}
+                    {% for key, produto in pedido_order.pedido.items() %}
                     {% set discount = "%0.2f" | format((produto.discount)/100 * produto.price|float) %}
                     <tr>
                         <td>{{loop.index}}</td>
-                        <td><img src="{{url_for('static', filename='images/'+ produto.image)}}" alt="{{produto.name}}" width="50", height="50"></td>
-
                         <td>{{produto.name}}</td>
 
                         <form action="{{url_for('updateCarro',code=key)}}" method="POST">
                             <td>
-                                {% set colors = produto.color.split(',') %}
-                                <label for="color">Cor do Produto:</label>
-                                <select name="color" id="color">
-                                    
-                                    {% for c in colors %}
-                                        <option value="{{ c.strip() }}">{{ c.strip()|capitalize }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{produto.color|capitalize}}
                             </td>                            
                             <td> R$ {{produto.price}}</td>
-                            <td><input type="number" name="quantity" min="1" max="10" value="{{produto.quantity}}"></td>
-                            
+                            <td>{{produto.quantity}}</td>
+            
                             {%if produto.discount > 0 %}
                                 <td>{{produto.discount}} % &nbsp; = {{discount}}</td>
                             {%else%}
@@ -53,13 +42,8 @@
                             {%endif%}
                             {% set subtotal = produto.quantity|int * produto.price|float %}
                             <td>R$ {{"%0.2f"|format((subtotal|float) - discount|float)}}</td>
-                                
-                            <td><button type="submit" class="btn btn-sm btn-success">Atualizar</button></td>
 
                         </form>
-
-                    
-                        <td><a href="{{url_for('removeItem', id=key)}}" class="btn btn-sm btn-danger">Remover</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -69,9 +53,8 @@
                         <td></td>
                         <td><a href="{{url_for('pedido_order')}}" class="btn btn-primary btn-sm float-left">Processar Compra</a></td>
                         <td colspan="3"></td>
-                        <td colspan="5">Valor a Pagar: &nbsp; R${{valorapagar}}</td>
-                        <td> <a href="{{url_for('limparcarro')}}" class="btn btn-danger btn-sm float-right"> Limpar Carrinho</a></td>
-
+                        <td colspan="5">Valor a Pagar: &nbsp; R${{gTotal}}</td>
+                        <td><a href="" class="btn btn-warning btn-sm float-right">Baixar PDF</a></td>
                     </tr>
                 </table>
         </div>
