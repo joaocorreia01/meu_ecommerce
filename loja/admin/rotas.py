@@ -22,7 +22,7 @@ def admin():
         flash('Por favor, faça o login para acessar o sistema ', 'danger')
         return redirect(url_for('login'))
     produtos = Addproduto.query.all()
-    return render_template('admin/index.html', title="Pagina Administrativa", produtos=produtos)
+    return render_template('admin/index.html', title="Pagina Administrativa", produtos=produtos, show_banner=True)
 
 @app.route('/marcas')
 def marcas():
@@ -30,7 +30,7 @@ def marcas():
         flash('Por favor, faça o login para acessar o sistema ', 'danger')
         return redirect(url_for('login'))
     marcas = Marca.query.order_by(Marca.id.desc()).all()
-    return render_template('admin/marca.html', title="Pagina de Fabricantes", marcas=marcas)
+    return render_template('admin/marca.html', title="Pagina de Fabricantes", marcas=marcas, show_banner=False)
 
 
 @app.route('/categoria')
@@ -39,7 +39,7 @@ def categoria():
         flash('Por favor, faça o login para acessar o sistema ', 'danger')
         return redirect(url_for('login'))
     categorias = Categoria.query.order_by(Categoria.id.desc()).all()
-    return render_template('admin/marca.html', title="Pagina de Categorias", categorias=categorias)
+    return render_template('admin/marca.html', title="Pagina de Categorias", categorias=categorias, show_banner=False)
     
         
 
