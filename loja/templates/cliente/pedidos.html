@@ -61,7 +61,25 @@
                 <table class="table table-sm">
                     <tr>
                         <td></td>
-                        <td><a href="{{url_for('pedido_order')}}" class="btn btn-primary btn-sm float-left">Processar Compra</a></td>
+                        <td>
+                            <form action="{{url_for('pagamento')}}" method="POST">
+
+                                <input type="hidden" name="invoice" value="{{pedido_order.notafiscal}}">
+                                <input type="hidden" name="total" value="{{gTotal}}">
+                                <script
+                                    src="https://checkout.stripe.com/checkout.js"
+                                    class="stripe-button"
+                                    data-key="pk_test_51QJx6TGjTd6wOkkdfE6OGOzgB8Vqj3ngPZ90qMeUpo26NDIBsoRhL52PnpeU6FQfjKCVeGHK0AHEl0YrrfXrFnGc007KIrqJp0"
+                                    data-description="Pagamento Seguro"
+                                    data-amount="{{gTotal * 100}}"
+                                    data-currency="brl">
+                                </script>
+                            </form>
+                            
+                        
+                        
+                        
+                        </td>
                         <td colspan="3"></td>
                         <td colspan="5">Valor a Pagar: &nbsp; R${{gTotal}}</td>
                         <td>

@@ -6,8 +6,38 @@ from .forms import CadastroClienteForm, LoginClienteForm
 from .models import Cadastrar, ClientePedido
 from flask_login import login_user, current_user, logout_user, login_required
 from weasyprint import HTML
+import stripe
 
 
+publishable_key = 'pk_test_51QJx6TGjTd6wOkkdfE6OGOzgB8Vqj3ngPZ90qMeUpo26NDIBsoRhL52PnpeU6FQfjKCVeGHK0AHEl0YrrfXrFnGc007KIrqJp0'
+stripe.api_key = 'sk_test_51QJx6TGjTd6wOkkdBXslNJRRNnEegTl9kpkZNVJThbPRjYlklwOsHHtJ6JgIDCKfySfCoYt1KgAm9a1YkprrujiR00ysLw3vQT'
+
+
+
+@app.route('/pagamento', methods=['POST'])
+@login_required
+def pagamento():
+    notafiscal = request.form.get('invoice')
+    total = request.form.get('total')
+    total_centavos = int(float(total) * 100)
+
+    customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
+    charge = stripe.Charge.create(customer=customer.id, amount=total_centavos, currency='usd', description='The Product')
+    #pedido_order = pedido_order.query.filter_by(cliente_id=current_user.id).order_by(ClientePedido.id.desc()).first()
+    cliente_pedido = ClientePedido.query.filter_by(cliente_id=current_user.id, notafiscal=notafiscal).order_by(ClientePedido.id.desc()).first()
+    cliente_pedido.status = 'Pago'
+    db.session.commit()
+
+
+    return redirect(url_for('obrigado'))
+
+
+
+
+
+@app.route('/obrigado')
+def obrigado():
+    return render_template('cliente/obrigado.html')
 
 
 @app.route('/cliente/cadastrar', methods=['GET', 'POST'])
@@ -46,12 +76,25 @@ def clientelogout():
     return redirect(url_for('home'))
 
 
+
+def atualizarlojaCarro():
+    for _key, produto in session['LojainCarrinho'].items():
+        session.modified = True
+        del produto['image']
+        del produto['colors']
+
+    return atualizarlojaCarro
+        
+
+
 @app.route('/pedido_order')
 @login_required
 def pedido_order():
     if current_user.is_authenticated:
         cliente_id = current_user.id
         notafiscal = secrets.token_hex(5)
+        atualizarlojaCarro()
+
         try:
             p_order = ClientePedido(notafiscal=notafiscal, cliente_id=cliente_id, pedido=session['LojainCarrinho'])
             db.session.add(p_order)
@@ -62,7 +105,7 @@ def pedido_order():
         except Exception as e:
             print(e)
             flash('Algo deu errado ao fazer o pedido', 'danger')
-            return redirect(url_for('getcart'))
+            return redirect(url_for('getCart'))
 
 
 @app.route('/pedidos/<notafiscal>')
