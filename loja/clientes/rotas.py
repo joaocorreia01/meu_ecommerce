@@ -16,7 +16,8 @@ def cadastrar_clientes():
         db.session.add(cadastrar)
         flash(f' Obriagdo {form.name.data} por se cadastrar', 'success')
         db.session.commit()
-        return redirect(url_for('login'))
+        # return redirect(url_for('login')) bug
+        return redirect(url_for('clientelogin'))
     return render_template('cliente/cliente.html', form=form)
 
 
@@ -28,6 +29,7 @@ def clientelogin():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
+            flash('Login realizado com sucesso', 'success')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login não realizado. Por favor, verifique seu email e senha', 'danger')

@@ -3,6 +3,77 @@
 {% block content %}
 
 {% include 'navbar.html' %}
+<div class="message">
+{% include '_messages.html'%}</div>
+{% if show_banner == true %}
+  <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="{{url_for('static', filename='images/banner_img_01.jpg')}}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left align-self-center">
+                            <h1 class="h1 text-success"><b>J&E</b> Variedades</h1>
+                            <h3 class="h2">A loja mais aleatória da internet</h3>
+                            <p>
+                              A J & E Variedades é a loja online mais aleatória da internet, oferecendo uma seleção única e imprevisível de produtos para todos os gostos. Com itens que vão desde o prático ao inusitado, é o lugar certo para quem busca novidades fora do comum.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="{{url_for('static', filename='images/banner_img_02.jpg')}}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                          <h1 class="h1 text-success"><b>J&E</b> Variedades</h1>
+                            <p>
+                              Na J & E Variedades, você encontra de tudo um pouco: acessórios, gadgets, itens de decoração, utilidades domésticas e muito mais. Cada visita ao site é uma nova experiência, com produtos diferentes a cada clique, ideais para presentes criativos ou para quem adora descobrir algo inesperado sem sair de casa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="{{url_for('static', filename='images/banner_img_03.jpg')}}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                          <h1 class="h1 text-success"><b>J&E</b> Variedades</h1>
+                            <p>
+                              Com uma proposta descontraída e atendimento próximo, a J & E Variedades aposta em uma curadoria divertida e acessível. A loja é perfeita para quem gosta de explorar produtos únicos e originais, sempre com a surpresa de encontrar algo que nem sabia que precisava!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+{% endif %}
 
 <div class="container">
     <div class="row">
@@ -148,14 +219,6 @@
                 <div class="card">
                     <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{ produto.name }}" class="card-img-top" height="180">
                     <div class="card-body">
-<<<<<<< HEAD
-=======
-                        {% if produto.discount is not none and produto.discount > 0 %}
-                        <h5 style="text-shadow: 1px 2px 2px #000; color: red;" class="text-center">
-                            Desconto de {{ produto.discount }}%
-                        </h5>
-                        {% endif %}
->>>>>>> 50e5fcd (criando pagina de pedidos)
                         <h4 class="text-center">{{ produto.name }}</h4>
                         <p class="text-center">Preço R${{ produto.price }}</p>
                         {% if produto.discount is not none and produto.discount > 0 %}
