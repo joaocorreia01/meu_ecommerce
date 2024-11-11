@@ -35,12 +35,12 @@
 
                         <form action="{{url_for('updateCarro',code=key)}}" method="POST">
                             <td>
-                                {% set colors = produto.color.split(',') %}
+                                {% set color = produto.color.split(',') %}
                                 <label for="color">Cor do Produto:</label>
                                 <select name="color" id="color">
-                                    
-                                    {% for c in colors %}
-                                        <option value="{{ c.strip() }}">{{ c.strip()|capitalize }}</option>
+                                    {% for c in color %}
+                                    {% set c = c.split(':') %}
+                                    <option value="{{ c[0] }}">{{ c[0]|capitalize }}</option>
                                     {% endfor %}
                                 </select>
                             </td>                            

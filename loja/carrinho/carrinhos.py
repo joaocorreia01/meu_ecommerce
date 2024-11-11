@@ -27,7 +27,7 @@ def AddCart():
                 'name': produto.name,
                 'price': produto.price,
                 'discount': produto.discount,
-                'color': color,  # Corrigi aqui para utilizar a cor enviada
+                'color': color,  # Corrigi aqui para utilizar as cores enviadas
                 'quantity': quantity,
                 'image': produto.image_1
             }
@@ -40,6 +40,7 @@ def AddCart():
                 if produto_id in carrinho:
                     # Atualiza a quantidade se o produto já existir
                     carrinho[produto_id]['quantity'] += quantity
+                    #carrinho[produto_id]['color'] = list(set(carrinho[produto_id]['color'] + color)) #adicionei 14:29 do dia 11/11/24
                 else:
                     # Adiciona o produto ao carrinho
                     carrinho[produto_id] = item
@@ -76,13 +77,13 @@ def updateCarro(code):
         return redirect(url_for('home'))
     if request.method == 'POST':
         quantity = request.form.get('quantity')
-        color = request.form.get('color')
+        color = request.form.get('color').split(',')
         try:
             session.modified = True
             for key, item in session['LojainCarrinho'].items():
                 if int(key) == code:
                     item['quantity'] = quantity
-                    item['color'] = color
+                    #item['color'] = list(set(item['color'] + color))
                     flash('Produto atualizado com sucesso', 'success')
                     return redirect(url_for('getCart'))
         except Exception as e:
