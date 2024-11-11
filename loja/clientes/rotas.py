@@ -46,6 +46,7 @@ def clientelogout():
 
 
 @app.route('/pedido_order')
+@login_required
 def pedido_order():
     if current_user.is_authenticated:
         cliente_id = current_user.id
