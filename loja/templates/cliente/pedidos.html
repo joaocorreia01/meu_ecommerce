@@ -5,8 +5,18 @@
 {% include 'navbar.html' %}
 
 <div class="container mt-4">
+    {% include '_messages.html' %}
     <div class="row">
         <div class="col-md-12">
+            <h3>Detalhes do Pedido</h3>
+            Numero do Pedido: {{pedido_order.notafiscal}} <br>
+            Data do Pedido: {{pedido_order.data_criado}} <br>
+            Status: {{pedido_order.status}} <br>
+            Nome do Cliente: {{cliente.name}} <br>
+            Email: {{cliente.email}} <br>
+            Telefone: {{cliente.contact}} <br>
+            <br>
+
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -54,7 +64,11 @@
                         <td><a href="{{url_for('pedido_order')}}" class="btn btn-primary btn-sm float-left">Processar Compra</a></td>
                         <td colspan="3"></td>
                         <td colspan="5">Valor a Pagar: &nbsp; R${{gTotal}}</td>
-                        <td><a href="" class="btn btn-warning btn-sm float-right">Baixar PDF</a></td>
+                        <td>
+                            <form action="{{url_for('get_pdf', notafiscal=pedido_order.notafiscal)}}" method="POST">
+                                <button type="submit" class="btn btn-warning btn-sm float-right">Gerar PDF</button>
+                            </form>
+                        </td>
                     </tr>
                 </table>
         </div>

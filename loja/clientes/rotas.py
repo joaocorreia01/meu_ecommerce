@@ -1,10 +1,13 @@
 import secrets, os
-from flask import redirect, url_for, render_template, request, flash, session, current_app
+from flask import redirect, url_for, render_template, request, flash, session, current_app, make_response
 from flask_bcrypt import Bcrypt
 from loja import db, app, photos, bcrypt, login_manager
 from .forms import CadastroClienteForm, LoginClienteForm
 from .models import Cadastrar, ClientePedido
 from flask_login import login_user, current_user, logout_user, login_required
+from weasyprint import HTML
+
+
 
 
 @app.route('/cliente/cadastrar', methods=['GET', 'POST'])
@@ -53,7 +56,7 @@ def pedido_order():
             db.session.commit()
             session.pop('LojainCarrinho')
             flash('Pedido realizado com sucesso!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('pedidos', notafiscal=notafiscal))
         except Exception as e:
             print(e)
             flash('Algo deu errado ao fazer o pedido', 'danger')
@@ -80,3 +83,37 @@ def pedidos(notafiscal):
     return render_template('cliente/pedidos.html', notafiscal=notafiscal, cliente=cliente, pedido_order=pedido_order, subTotal=subTotal,gTotal=gTotal)
 
 
+
+# Configure o caminho do executável do wkhtmltopdf
+#path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'  # Altere para o caminho correto se diferente
+#config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+
+@app.route('/get_pdf/<notafiscal>', methods=['POST'])
+@login_required
+def get_pdf(notafiscal):
+    if current_user.is_authenticated:
+        subTotal = 0
+        gTotal = 0
+        cliente_id = current_user.id
+        if request.method == 'POST':
+            cliente = Cadastrar.query.filter_by(id=cliente_id).first()
+            pedido_order = ClientePedido.query.filter_by(cliente_id=cliente_id, notafiscal=notafiscal).order_by(ClientePedido.id.desc()).first()
+            for _key, produto in pedido_order.pedido.items():
+                desconto = (produto.get('discount') / 100) * float(produto.get('price'))
+                subTotal += float(produto.get('price')) * int(produto.get('quantity'))
+                subTotal -= desconto
+                gTotal = float("%.2f" % (1 * subTotal))
+
+            rendered = render_template('cliente/pdf.html', notafiscal=notafiscal, cliente=cliente, pedido_order=pedido_order, subTotal=subTotal, gTotal=gTotal)
+            try:
+                pdf = HTML(string=rendered).write_pdf()
+                response = make_response(pdf)
+                response.headers['Content-Type'] = 'application/pdf'
+                response.headers['Content-Disposition'] = f'inline; filename=pedido_{notafiscal}.pdf'
+                return response
+            except Exception as e:
+                print(f"Erro ao gerar PDF: {e}")
+                return f"Erro ao gerar PDF: {e}"  # Isso ajudará a ver o erro específico no navegador
+
+    else:
+        return redirect(url_for('pedidos'))

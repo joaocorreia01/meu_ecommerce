@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gerar PDF</title>
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+    <body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+        {% include '_messages.html' %}
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Detalhes do Pedido</h3>
+                Numero do Pedido: {{pedido_order.notafiscal}} <br>
+                Data do Pedido: {{pedido_order.data_criado}} <br>
+                Status: {{pedido_order.status}} <br>
+                Nome do Cliente: {{cliente.name}} <br>
+                Email: {{cliente.email}} <br>
+                Telefone: {{cliente.contact}} <br>
+                <br>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nome</th>
+                            <th>Cor</th>
+                            <th>Preco</th>
+                            <th>Quantidade</th>
+                            <th>Desconto</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for key, produto in pedido_order.pedido.items() %}
+                        {% set discount = "%0.2f" | format((produto.discount)/100 * produto.price|float) %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{produto.name}}</td>
+                            <td>{{produto.color|capitalize}}</td>
+                            <td>R$ {{produto.price}}</td>
+                            <td>{{produto.quantity}}</td>
+                            {% if produto.discount > 0 %}
+                                <td>{{produto.discount}} % &nbsp; = {{discount}}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% set subtotal = produto.quantity|int * produto.price|float %}
+                            <td>R$ {{"%0.2f"|format((subtotal|float) - discount|float)}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table class="table table-sm">
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td colspan="5">Valor a Pagar: &nbsp; R${{gTotal}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>

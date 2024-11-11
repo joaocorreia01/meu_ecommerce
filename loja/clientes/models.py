@@ -2,6 +2,7 @@ from loja import app, db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 import json
+import pytz
 
 class JsonEcodedDict(db.TypeDecorator):
     impl = db.Text
@@ -37,8 +38,7 @@ class Cadastrar(db.Model, UserMixin):
     zipcode = db.Column(db.String(20), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
     profile = db.Column(db.String(50), nullable=True, default='profile.jpg')
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('America/Sao_paulo')))
     def __repr__(self):
         return f'<Cadastrar {self.name}>'
 
@@ -48,7 +48,7 @@ class ClientePedido(db.Model):
     notafiscal = db.Column(db.String(50), unique= True, nullable=False)
     status = db.Column(db.String(50), default='pendente', nullable=False)
     cliente_id = db.Column(db.Integer, unique=False, nullable=False)
-    data_criado = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    data_criado = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('America/Sao_paulo')))
     pedido = db.Column(JsonEcodedDict)
 
     def __repr__(self):
