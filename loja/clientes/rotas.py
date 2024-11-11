@@ -84,11 +84,6 @@ def pedidos(notafiscal):
     return render_template('cliente/pedidos.html', notafiscal=notafiscal, cliente=cliente, pedido_order=pedido_order, subTotal=subTotal,gTotal=gTotal)
 
 
-
-# Configure o caminho do executável do wkhtmltopdf
-#path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'  # Altere para o caminho correto se diferente
-#config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-
 @app.route('/get_pdf/<notafiscal>', methods=['POST'])
 @login_required
 def get_pdf(notafiscal):
