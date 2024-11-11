@@ -81,7 +81,7 @@ def atualizarlojaCarro():
     for _key, produto in session['LojainCarrinho'].items():
         session.modified = True
         del produto['image']
-        del produto['colors']
+        del produto['color']
 
     return atualizarlojaCarro
         
