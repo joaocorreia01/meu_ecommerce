@@ -106,7 +106,8 @@ def get_pdf(notafiscal):
                 pdf = HTML(string=rendered).write_pdf()
                 response = make_response(pdf)
                 response.headers['Content-Type'] = 'application/pdf'
-                response.headers['Content-Disposition'] = f'inline; filename=pedido_{notafiscal}.pdf'
+                #response.headers['Content-Disposition'] = f'inline; filename=pedido_{notafiscal}.pdf'
+                response.headers['Content-Disposition'] = f'attachment; filename=pedido_{notafiscal}.pdf'
                 return response
             except Exception as e:
                 print(f"Erro ao gerar PDF: {e}")
