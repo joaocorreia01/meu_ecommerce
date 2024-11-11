@@ -77,12 +77,13 @@ def updateCarro(code):
         return redirect(url_for('home'))
     if request.method == 'POST':
         quantity = request.form.get('quantity')
-        color = request.form.get('color').split(',')
+        color = request.form.get('color')
         try:
             session.modified = True
             for key, item in session['LojainCarrinho'].items():
                 if int(key) == code:
                     item['quantity'] = quantity
+                    item['color'] = color
                     #item['color'] = list(set(item['color'] + color))
                     flash('Produto atualizado com sucesso', 'success')
                     return redirect(url_for('getCart'))
