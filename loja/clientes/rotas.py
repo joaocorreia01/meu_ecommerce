@@ -29,6 +29,7 @@ def clientelogin():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
+            flash('Login realizado com sucesso', 'success')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login não realizado. Por favor, verifique seu email e senha', 'danger')

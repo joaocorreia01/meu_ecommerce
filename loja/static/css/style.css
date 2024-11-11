@@ -40,7 +40,6 @@ body {
 }
 
 
-
 .titulo {
     font-size: 2em;
     font-weight: bold;
@@ -64,4 +63,21 @@ body {
 #template-mo-zay-hero-carousel .carousel-control-prev i {
     color: #59ab6e !important;
     font-size: 2.8em !important;
+}
+
+.message {
+    font-size: 1.2em;
+    max-width: 350px;
+    margin-left: 40%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.flashes{
+    max-width: 350px;
+    margin-left: 40%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
