@@ -6,6 +6,7 @@ from .forms import CadastroClienteForm, LoginClienteForm
 from .models import Cadastrar, ClientePedido
 from flask_login import login_user, current_user, logout_user, login_required
 from weasyprint import HTML
+from loja.produtos.rotas import marcas, categorias
 import stripe
 
 
@@ -125,7 +126,7 @@ def pedidos(notafiscal):
     else:
         return redirect(url_for('clientelogin'))
 
-    return render_template('cliente/pedidos.html', notafiscal=notafiscal, cliente=cliente, pedido_order=pedido_order, subTotal=subTotal,gTotal=gTotal)
+    return render_template('cliente/pedidos.html', notafiscal=notafiscal, cliente=cliente, pedido_order=pedido_order, subTotal=subTotal,gTotal=gTotal, marcas=marcas(), categorias=categorias())
 
 
 @app.route('/get_pdf/<notafiscal>', methods=['POST'])
