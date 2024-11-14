@@ -8,11 +8,13 @@ body {
     display: inline-block;
 }
 .container-navbar{
+    display: flex;
     position: relative;
     background-color: white;
     margin-left: 0;
     margin-right: 0;
-    width: 1920px;
+    width: 100%;
+    justify-content: space-around;
 }
 .container-fluid {
     margin: 0;
@@ -80,4 +82,21 @@ body {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.text-center-thx {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: rgb(45, 126, 45);
+    font-weight: bold;
+}
+
+.home-button {
+    justify-content: center;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
 }

@@ -1,1 +1,19 @@
-<h1>Obrigado por comprar conosco!</h1>
+{% extends "layouts.html" %}
+{% include "navbar.html" %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3"></div>
+            <div class="col-md-6 p-2">
+                <div class="text-center-thx">Obrigado</div>
+                <p class="text-center">Seu pedido foi realizado com sucesso.</p>
+                <p class="text-center">Obrigado por comprar conosco.</p>
+            </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="home-button">
+        <a href="{{ url_for('home') }}" class="btn btn-primary">Voltar para a página inicial</a>
+    </div>
+
+{% endblock content%}
