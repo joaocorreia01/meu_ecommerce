@@ -55,10 +55,7 @@ class ClientePedido(db.Model):
         return f'<ClientePedido {self.notafiscal}>'
 
 
-
-
-
-# Comando para criar as tabelas após apagar o banco de dados
+# criar as tabelas após apagar o banco de dados
 with app.app_context():
     db.create_all()
 

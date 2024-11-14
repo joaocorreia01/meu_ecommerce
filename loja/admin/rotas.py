@@ -4,16 +4,11 @@ from loja import app, db, bcrypt
 from .forms import RegistrationForm, LoginFormulario
 from .models import User
 import os
+from sqlalchemy.exc import IntegrityError #adicionado dia 13/11
 
 
 
 admin_bp = Blueprint('admin', __name__)
-
-'''
-@app.route('/')
-def home():
-    return redirect(url_for('login'))
-'''
 
 
 @app.route('/admin')
@@ -49,10 +44,14 @@ def registrar():
     if request.method == 'POST' and form.validate():
         hash_password = bcrypt.generate_password_hash(form.password.data)
         user = User(name=form.name.data,username=form.username.data,email= form.email.data,password=hash_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Obrigado por se registrar {form.name.data}!', 'success')
-        return redirect(url_for('login')) #mudar para ('login')
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash(f'Obrigado por se registrar {form.name.data}!', 'success')
+            return redirect(url_for('login'))
+        except IntegrityError:
+            db.session.rollback()
+            flash(f'Email {form.email.data} já está registrado', 'danger')
     return render_template('admin/registrar.html', form=form, title="Pagina de registros")
 
 

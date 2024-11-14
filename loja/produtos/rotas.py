@@ -35,7 +35,6 @@ def search():
 
 
 
-
 @app.route('/marca/<int:id>')
 def get_marca(id):
     get_m = Marca.query.filter_by(id=id).first_or_404()
@@ -120,7 +119,7 @@ def updatecat(id):
         updatecat.name = categoria
         flash(f'Categoria {categoria} atualizada com sucesso', 'success')
         db.session.commit()
-        return redirect(url_for('categoria')) #observar se é categorias msm
+        return redirect(url_for('categoria'))
 
     return render_template('/produtos/updatemarca.html', title="Atualizar Categoria", updatecat=updatecat)
 
@@ -134,7 +133,7 @@ def addcat():
 
     if request.method == "POST":
         getmarca = request.form.get('categoria')
-        if getmarca:  # Verifica se getmarca não é None ou vazio
+        if getmarca:
             cat = Categoria(name=getmarca)
             db.session.add(cat)
             db.session.commit()
@@ -167,7 +166,7 @@ def addproduto():
         return redirect(url_for('login'))
     
     marcas = Marca.query.all()
-    categorias = Categoria.query.all()  # Corrigido: renomeado para 'categorias' para ser consistente com o template
+    categorias = Categoria.query.all()
     form = Addprodutos(request.form)
     if request.method=="POST":
         
@@ -255,7 +254,7 @@ def updateproduto(id):
 
         flash(f'Produto {produto.name} atualizado com sucesso', 'success')
         
-        return redirect(url_for('admin')) #redirect('admin')
+        return redirect(url_for('admin'))
     
     form.name.data = produto.name
     form.price.data = produto.price

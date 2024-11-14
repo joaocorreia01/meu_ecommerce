@@ -27,26 +27,20 @@ def AddCart():
                 'name': produto.name,
                 'price': produto.price,
                 'discount': produto.discount,
-                'color': color,  # Corrigi aqui para utilizar as cores enviadas
+                'color': color,
                 'quantity': quantity,
                 'image': produto.image_1
             }
-
-            # Verifica se o carrinho já existe na sessão
             if 'LojainCarrinho' in session:
                 carrinho = session['LojainCarrinho']
                 
-                # Verifica se o produto já está no carrinho
                 if produto_id in carrinho:
-                    # Atualiza a quantidade se o produto já existir
                     carrinho[produto_id]['quantity'] += quantity
-                    #carrinho[produto_id]['color'] = list(set(carrinho[produto_id]['color'] + color)) #adicionei 14:29 do dia 11/11/24
+                    
                 else:
-                    # Adiciona o produto ao carrinho
                     carrinho[produto_id] = item
                 session['LojainCarrinho'] = carrinho
             else:
-                # Cria o carrinho com o primeiro item
                 session['LojainCarrinho'] = {produto_id: item}
 
             return redirect(request.referrer)
@@ -84,7 +78,6 @@ def updateCarro(code):
                 if int(key) == code:
                     item['quantity'] = quantity
                     item['color'] = color
-                    #item['color'] = list(set(item['color'] + color))
                     flash('Produto atualizado com sucesso', 'success')
                     return redirect(url_for('getCart'))
         except Exception as e:
