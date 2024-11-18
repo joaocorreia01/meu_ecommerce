@@ -77,7 +77,7 @@ Este guia ajudará você a configurar e executar o projeto localmente. Siga os p
 
 ### Pré-requisitos
 Certifique-se de que você tem as seguintes ferramentas instaladas em sua máquina:
-- Python (versão 3.6 ou superior);
+- Python (versão 3.10 ou superior);
 - Git;
 - Um editor de código (como VSCode ou outro de sua preferência).
 
