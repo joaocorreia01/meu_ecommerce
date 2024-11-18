@@ -70,6 +70,8 @@ Repositório usado na disciplina de Engenharia de Software e Banco de Dados.
 - Integração com um sistema de pagamento básico (Utilizando o stripe);
 
 
+
+
 ## Guia de Uso
 Este guia ajudará você a configurar e executar o projeto localmente. Siga os passos abaixo:
 
