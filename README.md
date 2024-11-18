@@ -97,10 +97,10 @@ Certifique-se de que você tem as seguintes ferramentas instaladas em sua máqui
 2. Ativar o ambiente virtual
 - No Windows:
     ```bash
-      myenv\Scripts\activate
+      meuenv\Scripts\activate
 - No macOS/Linux:
     ```bash
-      source myenv/bin/activate
+      source meuenv/bin/activate
 3. Instale as dependências necessárias:
     ```bash
       pip install -r requirements.txt
