@@ -70,3 +70,50 @@ Repositório usado na disciplina de Engenharia de Software e Banco de Dados.
 - Integração com um sistema de pagamento básico (Utilizando o stripe);
 
 
+## Guia de Uso
+Este guia ajudará você a configurar e executar o projeto localmente. Siga os passos abaixo:
+
+### Pré-requisitos
+Certifique-se de que você tem as seguintes ferramentas instaladas em sua máquina:
+- Python (versão 3.6 ou superior);
+- Git;
+- Um editor de código (como VSCode ou outro de sua preferência).
+
+
+### Passo 1: Clonar o Repositório
+1. Abra um terminal ou prompt de comando.
+2. Clone o repositório com o comando:
+     ```bash
+    git clone https://github.com/joaocorreia01/meu_ecommerce.git
+
+3. Navegue até o diretório do projeto
+
+### Passo 2: Configurar o Ambiente Virtual
+1. Crie um ambiente virtual Python:
+     ```bash
+    python -m venv myenv
+2. Ativar o ambiente virtual
+- No Windows:
+    ```bash
+      myenv\Scripts\activate
+- No macOS/Linux:
+    ```bash
+      source myenv/bin/activate
+3. Instale as dependências necessárias:
+    ```bash
+      pip install -r requirements.txt
+
+### Passo 3: Executar o Sistema
+1. Certifique-se de que o ambiente virtual está ativado.
+2. Execute o arquivo principal do sistema:
+     ```bash
+    python run.py
+3. O servidor será iniciado, e o sistema estará disponível em:
+     ```bash
+    http://127.0.0.1:5000
+4. Acesse o sistema no navegador e utilize as funcionalidades disponíveis!
+
+
+
+
+
