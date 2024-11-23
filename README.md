@@ -1,5 +1,5 @@
 # meu_ecommerce
-Repositório usado na disciplina de Engenharia de Software e Banco de Dados.
+Repositório usado na disciplina de Engenharia de Software, Reuso de Software e Metodologia Ágeis e Banco de Dados.
 
 
 ## Funcionalidades
